@@ -264,6 +264,8 @@ function App() {
           }
         ]
       )
+      console.table(times)
+      console.log(nomeDoTime, corDoTime)
     }
 
     const favoritarColaborador = (id) => {
@@ -274,15 +276,22 @@ function App() {
         return colaborador
       }))
     }
+
+    function definirId(){
+      return uuidv4();
+    }
   
+    function aoCadastrar(colaborador){
+      setColaboradores([...colaboradores, {...colaborador}])
+    }
 
   return (
     <div>
-      <Banner />
-      <Formulario cadastrarTime={cadastrarNovoTime} times={times.map(time => time.nome)} aoCadastrar={colaborador => setColaboradores([...colaboradores, colaborador])} />
+      <Banner enderecoImagem="/imagens/banner.png" textoAlternativo="Logo do Organo"/>
+      <Formulario cadastrarTime={cadastrarNovoTime} times={times} aoCadastrar={aoCadastrar} definirId={definirId} />
       <section className="times">
         <h1>Minha organização</h1>
-        {times.map((time, indice) => <Time favoritarColaborador={favoritarColaborador} mudarCor={mudarCorDoTime} aoDeletar={deletarColaborador} key={indice} time={time} colaboradores={colaboradores.filter(colaborador => colaborador.time === time.nome)} />)}
+        {times.map((time, indice) => <Time favoritarColaborador={favoritarColaborador} mudarCor={mudarCorDoTime} aoDeletar={deletarColaborador} key={time.id} time={time} colaboradores={colaboradores.filter(colaborador => colaborador.time === time.nome)} />)}
       </section>
       <Rodape />
     </div>

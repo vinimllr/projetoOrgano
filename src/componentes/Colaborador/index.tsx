@@ -1,8 +1,17 @@
 import './colaborador.css'
 import {TiUserDeleteOutline} from "react-icons/ti"
 import {AiOutlineHeart, AiFillHeart} from 'react-icons/ai'
+import { Icolaborador } from '../../shared/interface/Icolaborador'
 
-const Colaborador = ({ favoritarColaborador, colaborador, corDeFundo, aoDeletar}) => {
+
+interface ColaboradorProps{
+    favoritarColaborador: (id: string) => void
+    colaborador: Icolaborador
+    corDeFundo: string
+    aoDeletar: (id: string) => void
+}
+
+const Colaborador = ({ favoritarColaborador, colaborador, corDeFundo, aoDeletar} : ColaboradorProps) => {
     function favorito(){
         favoritarColaborador(colaborador.id)
     }
@@ -15,8 +24,12 @@ const Colaborador = ({ favoritarColaborador, colaborador, corDeFundo, aoDeletar}
 
     return (
     <div className="colaborador">
-        <TiUserDeleteOutline className='deletar' onClick={() => aoDeletar(colaborador.id)} size={25} color='white'/>
-        <div className="cabecalho" style={{ backgroundColor: corDeFundo }}>
+        <TiUserDeleteOutline className='deletar' 
+            onClick={() => aoDeletar(colaborador.id)} 
+            size={25} color='white'
+        />
+        <div className="cabecalho" 
+            style={{ backgroundColor: corDeFundo }}>
             <img src={colaborador.imagem} alt={colaborador.nome} />
         </div>
         <div className="rodape">

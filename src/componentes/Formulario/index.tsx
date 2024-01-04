@@ -3,8 +3,19 @@ import Botao from '../Botao'
 import Campo from '../Campo'
 import ListaSuspensa from '../ListaSuspensa'
 import './formulario.css'
+import { Icolaborador } from '../../shared/interface/Icolaborador'
+import { Itime } from '../../shared/interface/Itime'
 
-const Formulario = ({aoCadastrar, times, cadastrarTime}) => {
+
+interface FormularioProps{
+    definirId: () => string
+    aoCadastrar: (colaborador: Icolaborador) => void
+    times: Itime[]
+    cadastrarTime: (corTime: string, nomeTime: string) => void
+}
+
+
+const Formulario = ({definirId, aoCadastrar, times, cadastrarTime} : FormularioProps) => {
 
     const [nome, setNome] = useState('')
     const [cargo, setCargo] = useState('')
@@ -13,14 +24,15 @@ const Formulario = ({aoCadastrar, times, cadastrarTime}) => {
     const [nomeTime, setNomeTime] = useState('')
     const [corTime, setCorTime] = useState('')
 
-    const aoSubmeter = (evento) => {
+    const aoSubmeter = (evento: React.FormEvent<HTMLFormElement>) => {
         evento.preventDefault()
         console.log('form enviado', nome, cargo, imagem, time )
         aoCadastrar({
             nome,
-            cargo,
+            cargo,  
             imagem,
-            time
+            time,
+            id: definirId(),
         })
     }
 
@@ -42,6 +54,7 @@ const Formulario = ({aoCadastrar, times, cadastrarTime}) => {
                     aoAlterado={valor => setCargo(valor)}/>
                 <Campo 
                     label='Imagem' 
+                    valor={imagem}
                     placeholder='Informe o endereço da imagem '
                     aoAlterado={valor => setImagem(valor)}/>
                 <ListaSuspensa 
@@ -50,7 +63,9 @@ const Formulario = ({aoCadastrar, times, cadastrarTime}) => {
                     items={times} 
                     valor={time}
                     aoAlterado={valor => setTime(valor)}/>
-                <Botao texto='Criar card' />
+                <Botao>
+                    Criar Card
+                </Botao>
             </form>
             <form className="formulario" onSubmit={evento => {
                 evento.preventDefault()
@@ -70,7 +85,9 @@ const Formulario = ({aoCadastrar, times, cadastrarTime}) => {
                     placeholder='Digite a cor do time'
                     valor={corTime}
                     aoAlterado={valor => setCorTime(valor)}/>
-                <Botao texto='Criar um novo time' />
+                <Botao>
+                    Criar Time
+                </Botao>
             </form>
         </section>
     )
